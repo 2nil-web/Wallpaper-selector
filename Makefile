@@ -1,11 +1,12 @@
 
+MK_DIR=../33-webapp
 SRC_DIR=.
-include ../../header.mk
+include ${MK_DIR}/header.mk
 
 all : app.ico app.png
 
 clean :
 	rm -f app.ico app.png
 
-include ../../rules.mk
+include ${MK_DIR}/rules.mk
 
