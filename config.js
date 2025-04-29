@@ -2,7 +2,7 @@ var old_app_w, old_app_h;
 var old_darkmode;
 var old_wbgcolor, old_bgcolor;
 var old_met, old_rejectfolder;
-var old_imargin;
+var old_imargin, old_persgeo;
 
 
 function hide_imgs(hide = true) {
@@ -117,6 +117,16 @@ async function setRejFolder() {
   rejectfolder.value = fld;
 }
 
+async function setPersGeo() {
+  if (persist_geom.checked) {
+    //console.log("Setting geometry persistence");
+    if (!await fs.exists(".config.ini")) await fs.write(".config.ini", "init_state = 0");
+  } else {
+    //console.log("Unsetting geometry persistence");
+    if (await fs.exists(".config.ini")) await fs.remove(".config.ini");
+  }
+}
+
 function cnfDivCancel() {
   darkmode.checked = old_darkmode;
   setDarkMode(darkmode.checked);
@@ -125,6 +135,7 @@ function cnfDivCancel() {
   setRejMet(old_met);
   rejectfolder.value = old_rejectfolder;
   img_margin.value = old_imargin;
+  persist_geom.checked = old_persgeo;
   hide_imgs(false);
 }
 
@@ -143,6 +154,8 @@ function cnfDivOk() {
     for (i = 0; i < img_divs.length; i++)
       img_divs[i].style.backgroundColor = bgcolor.value;
   }
+
+  setPersGeo();
 
   hide_imgs(false);
 }
@@ -176,6 +189,8 @@ async function showConfig() {
   old_darkmode = darkmode.checked;
   setDarkMode(darkmode.checked);
   old_imargin = img_margin.value;
+  old_imargin = img_margin.value;
+  old_persgeo = persist_geom.checked;
   img_margin.addEventListener("input", only_int)
 
   old_wbgcolor = wbgcolor.value;

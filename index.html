@@ -12,8 +12,22 @@
 
 <body>
   <div id='cnfDiv' style="display: none; ">
+    <div>
+      <label for="darkmode" style="position: absolute; left: 4%">Dark mode</label>
+      <input type="checkbox" style="position: absolute; left: 20%" onclick="setDarkMode()" id="darkmode">
+
+      <label for="img_margin" style="position: absolute; left: 30%">Image margin</label>
+      <input type="number" min="1" max="20" pattern="[0-9]{2}" id="img_margin" style="position: absolute; left: 50%; width: 30px">
+
+      <label for="persist_geom" style="position: absolute; right: 8%">Persistent geometry</label>
+      <input type="checkbox" style="position: absolute; right: 4%" id="persist_geom">
+
+    </div>
+    <br />
+    <br />
+
     <fieldset>
-      <legend>Choose background colors</legend>
+      <legend>Background colors</legend>
       <label for="wbgcolor">For the entire window :</label>
       <input type="color" id="wbgcolor" onchange="setDarkMode()" style="position: absolute; right: 50%">
       <button onclick="document.body.style.backgroundColor=wbgcolor.value='#f0f0f0';setDarkMode()" style="position: absolute; right: 20%">Reset to default</button>
@@ -27,19 +41,9 @@
     </fieldset>
     <br />
 
-    <div>
-      <label for="darkmode" style="position: absolute; left: 10%">Dark mode</label>
-      <input type="checkbox" style="position: absolute; left: 25%" onclick="setDarkMode()" id="darkmode">
-
-      <label for="img_margin" style="position: absolute; right: 20%">Image margin</label>
-      <input type="number" min="1" max="20" pattern="[0-9]{2}" id="img_margin" style="position: absolute; right: 10%; width: 30px">
-    </div>
-    <br />
-    <br />
-
-    <fieldset style="text-align: center;">
-      <legend>Pictures rejection method</legend>
-      <fieldset style="border:none">
+    <fieldset>
+      <legend>Rejection method</legend>
+      <fieldset style="text-align: center; border:none">
         <input type="radio" id="movpic" name="rejmeth" onchange="setRejFold('move')" checked>
         <label for="movpic">Move to the folder below</label>
         <label for="rempic" style="margin-left:30px;">Delete definitely</label>

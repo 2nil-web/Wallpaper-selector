@@ -4,6 +4,9 @@ async function sleep(nsec) {
   await new Promise(r => setTimeout(r, nsec * 1000));
 }
 
+async function setPersistGeom() {
+}
+
 async function next_wallpaper_infos() {
   var owi = await win.wallpapers_info();
   //console.log(owi);
@@ -550,7 +553,7 @@ async function loadConfig() {
 
   var l_dmod = localStorage.getItem("darkmode");
   if (l_dmod === null || l_dmod === "false") darkmode.checked = false;
-  else darkmode.checked = l_dmod;
+  else darkmode.checked = true;
 
   var l_imarg = localStorage.getItem("img_margin");
   if (l_imarg === null) img_margin.value = 2;
@@ -559,6 +562,12 @@ async function loadConfig() {
     else if (l_imarg > 20) img_margin.value = 20;
     else img_margin.value = l_imarg;
   }
+
+  var l_pege = localStorage.getItem("persist_geom");
+  if (l_pege === null || l_pege === "true") persist_geom.checked = true;
+  else persist_geom.checked = false;
+
+  setPersGeo();
 
   var l_rejmet = localStorage.getItem("rejectmethod");
   if (l_rejmet === null) l_rejmet = "move";
@@ -581,6 +590,9 @@ async function saveConfig() {
   if (darkmode.checked) localStorage.setItem("darkmode", "true");
   else localStorage.setItem("darkmode", "false");
   localStorage.setItem("rejectfolder", rejectfolder.value);
+
+  if (persist_geom.checked) localStorage.setItem("persist_geom", "true");
+  else localStorage.setItem("persist_geom", "false");
 
   if (img_margin.value < 1) localStorage.setItem("img_margin", 1);
   else if (img_margin.value > 20) localStorage.setItem("img_margin", 20);
