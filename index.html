@@ -27,6 +27,26 @@
     <br />
 
     <fieldset>
+      <legend>How to show images tools and parameters</legend>
+        <span style="position: absolute;left:5%">
+        <input type="radio" id="toolallways" name="showtools">
+        <label for="toolallways">Allways</label>
+        </span>
+
+        <span style="position: absolute;left:30%">
+        <input type="radio" id="toolonover" name="showtools" checked>
+        <label for="toolonover">On mouse over</label>
+        </span>
+
+        <span style="position: absolute;left:65%">
+        <input type="radio" id="toolonclick" name="showtools">
+        <label for="toolonclick">On mouse click</label>
+        </span>
+        <br/>
+   </fieldset>
+    <br />
+
+    <fieldset>
       <legend>Background colors</legend>
       <label for="wbgcolor">For the entire window :</label>
       <input type="color" id="wbgcolor" onchange="setDarkMode()" style="position: absolute; right: 50%">

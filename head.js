@@ -4,9 +4,6 @@ async function sleep(nsec) {
   await new Promise(r => setTimeout(r, nsec * 1000));
 }
 
-async function setPersistGeom() {
-}
-
 async function next_wallpaper_infos() {
   var owi = await win.wallpapers_info();
   //console.log(owi);
@@ -422,22 +419,75 @@ async function update_images() {
   upto_id = setTimeout(update_images, 200);
 }
 
-function tools_visibility(hide) {
-  document.querySelectorAll('.switch_vis').forEach(function(node) {
-    //console.log(`visibility ${node.style.visibility}`);
-    if (hide || typeof node.style.visibility == 'undefined' || node.style.visibility.length == 0 || node.style.visibility == 'visible') node.style.visibility = 'hidden';
-    else node.style.visibility = 'visible';
-  });
+function tools_visibility(showing) {
+  if (showing) document.querySelectorAll('.switch_vis').forEach(function(node) { node.style.visibility = 'visible'; });
+  else document.querySelectorAll('.switch_vis').forEach(function(node) { node.style.visibility = 'hidden'; });
 }
 
 function on_mouse(event) {
-  //  console.log(`event (${event.pageX},${event.pageY}) -- ${event.type}`);
-  tools_visibility(event.type == 'mouseleave');
+  //console.log(`event type '${event.type}' -- page (${event.pageX},${event.pageY}), client (${event.clientX},${event.clientY}), movement (${event.movementX},${event.movementY})`);
+  if (event.type === 'mouseleave') {
+    tools_visibility(false);
+  } else {
+    tools_visibility(true);
+  }
 }
 
+var toogle_click=true;
 function on_click(PointerEvent) {
   //  console.log(`Click (${PointerEvent.pageX},${PointerEvent.pageY})`);
-  tools_visibility();
+  tools_visibility(toogle_click);
+  toogle_click=!toogle_click;
+}
+
+function setToolsDisplayMode(on=true) {
+  var showtools=document.querySelector('input[name="showtools"]:checked').id;
+
+  switch (showtools) {
+    case "toolallways":
+      if (on) {
+        tools_visibility(true);
+      } else {
+        tools_visibility(false);
+      }
+      break;
+    case "toolonclick":
+      if (on) {
+        document.addEventListener("click", on_click);
+        toogle_click=true;
+        on_click();
+      } else {
+        document.removeEventListener("click", on_click);
+      }
+      break;
+    case "toolonover":
+    default:
+      if (on) {
+        document.addEventListener("mouseenter", on_mouse);
+        document.addEventListener("mouseover", on_mouse);
+        document.addEventListener("mouseleave", on_mouse);
+        tools_visibility(true);
+      } else {
+        document.removeEventListener("mouseenter", on_mouse);
+        document.removeEventListener("mouseover", on_mouse);
+        document.removeEventListener("mouseleave", on_mouse);
+      }
+      break;
+  }
+}
+
+function setImgEvents (add=true) {
+
+  setToolsDisplayMode(add);
+
+  if (add) {
+    document.body.addEventListener("resize", resize_images);
+    document.addEventListener("keyup", exit_on_esc);
+  } else {
+    tools_visibility(false);
+    document.body.removeEventListener("resize", resize_images);
+    document.removeEventListener("keyup", exit_on_esc);
+  }
 }
 
 function add_svg_button(par, initStyle, click, title, svg) {
@@ -464,28 +514,29 @@ function add_svg_button(par, initStyle, click, title, svg) {
 }
 
 async function set_img_divs(on = true) {
-  tools_visibility(on);
-
   if (on) {
     await app.set_size(250, 200, 1);
     upto_id = setTimeout(update_images, 200);
-    document.body.addEventListener("resize", resize_images);
-    document.body.addEventListener("mouseenter", on_mouse);
-    document.body.addEventListener("mouseleave", on_mouse);
-    //document.body.addEventListener("click", on_click);
   } else {
     clearTimeout(upto_id);
-    document.body.removeEventListener("resize", resize_images);
-    document.body.removeEventListener("mouseenter", on_mouse);
-    document.body.removeEventListener("mouseleave", on_mouse);
-    //document.body.removeEventListener("click", on_click);
   }
+
+  setImgEvents(on);
+}
+
+var bc;
+function clean_exit() {
+  bc.close();
+  app.exit();
+}
+
+function exit_on_esc() {
+  if (event.keyCode === 27) clean_exit();
 }
 
 async function runConfig() {
-  //  document.removeEventListener("keyup", exit_on_esc);
+  setImgEvents(false);
   await showConfig();
-  //  document.addEventListener("keyup", exit_on_esc);
 }
 
 async function create_images() {
@@ -614,7 +665,7 @@ if (typeof app.sysname !== "undefined") {
 
   async function do_load() {
     // Prevent the app to load multiple times
-    const bc = new BroadcastChannel(document.title);
+    bc = new BroadcastChannel(document.title);
     bc.postMessage(document.title);
     bc.onmessage = (event) => {
       if (event.data === document.title) {
@@ -631,14 +682,6 @@ if (typeof app.sysname !== "undefined") {
       }
     }
 
-    function clean_exit() {
-      bc.close();
-      app.exit();
-    }
-
-    function exit_on_esc() {
-      if (event.keyCode === 27) clean_exit();
-    }
     document.addEventListener("keyup", exit_on_esc);
 
 

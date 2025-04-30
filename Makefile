@@ -7,7 +7,7 @@ SOURCES=app.svg config.js head.js index.html LICENSE style.css
 
 include ${MK_DIR}/header.mk
 
-all : app.ico app.png
+all : app.png app.ico
 
 ${PREFIX}-${VERSION}-${SYS_VER}.zip : ${SOURCES}
 	@rm -f $@

@@ -2,7 +2,7 @@ var old_app_w, old_app_h;
 var old_darkmode;
 var old_wbgcolor, old_bgcolor;
 var old_met, old_rejectfolder;
-var old_imargin, old_persgeo;
+var old_imargin, old_persgeo, old_showtool;
 
 
 function hide_imgs(hide = true) {
@@ -16,14 +16,14 @@ function hide_imgs(hide = true) {
     document.body.addEventListener("keyup", onKeyUpConfig);
     old_app_w = app.w;
     old_app_h = app.h;
-    app.set_size(500, 352, 0)
-    app.set_size(500, 390, 1)
+    app.set_size(500, 425, 0)
+    app.set_size(500+app.left_border+app.right_border, 425+app.top_border+app.bottom_border, 1)
     //console.log(`hide_imgs -- old_met: ${old_met}`);
   } else {
     cnfDiv.style.display = 'none';
     vis = 'visible';
     document.body.removeEventListener("keyup", onKeyUpConfig);
-    app.set_size(old_app_w, old_app_h)
+    app.set_size(old_app_w, old_app_h, 0)
   }
 
 
@@ -32,8 +32,7 @@ function hide_imgs(hide = true) {
     img_divs[i].style.visibility = vis;
   }
 
-  tools_visibility(hide);
-  //  tools_visibility(hide);
+  //tools_visibility(hide);
 }
 
 function srgb2num(srgb) {
@@ -130,12 +129,17 @@ async function setPersGeo() {
 function cnfDivCancel() {
   darkmode.checked = old_darkmode;
   setDarkMode(darkmode.checked);
-  bgcolor.value = old_bgcolor;
-  wbgcolor.value = old_wbgcolor;
-  setRejMet(old_met);
-  rejectfolder.value = old_rejectfolder;
   img_margin.value = old_imargin;
   persist_geom.checked = old_persgeo;
+
+  document.getElementById(old_showtool.id).checked=true;
+
+  bgcolor.value = old_bgcolor;
+  wbgcolor.value = old_wbgcolor;
+
+  setRejMet(old_met);
+  rejectfolder.value = old_rejectfolder;
+
   hide_imgs(false);
 }
 
@@ -182,19 +186,21 @@ function only_int(event) {
   return this.value |= 0;
 }
 
-async function showConfig() {
+function showConfig() {
   if (rempic.checked) old_met = "delete";
   else old_met = "move";
 
   old_darkmode = darkmode.checked;
   setDarkMode(darkmode.checked);
   old_imargin = img_margin.value;
-  old_imargin = img_margin.value;
-  old_persgeo = persist_geom.checked;
   img_margin.addEventListener("input", only_int)
+  old_persgeo = persist_geom.checked;
+
+  old_showtool=document.querySelector('input[name="showtools"]:checked');
 
   old_wbgcolor = wbgcolor.value;
   old_bgcolor = bgcolor.value;
+
   old_rejectfolder = rejectfolder.value;
   hide_imgs();
 }
