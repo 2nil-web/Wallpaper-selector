@@ -594,14 +594,6 @@ function get_image_by_name(name) {
 }
 
 async function loadConfig() {
-  var l_wbgco = localStorage.getItem("winbgcolor");
-  if (l_wbgco === null) wbgcolor.value = "#ffffff";
-  else wbgcolor.value = l_wbgco;
-
-  var l_bgco = localStorage.getItem("bgcolor");
-  if (l_bgco === null) bgcolor.value = "#0078d4";
-  else bgcolor.value = l_bgco;
-
   var l_dmod = localStorage.getItem("darkmode");
   if (l_dmod === null || l_dmod === "false") darkmode.checked = false;
   else darkmode.checked = true;
@@ -617,8 +609,20 @@ async function loadConfig() {
   var l_pege = localStorage.getItem("persist_geom");
   if (l_pege === null || l_pege === "true") persist_geom.checked = true;
   else persist_geom.checked = false;
-
   setPersGeo();
+
+  // Should be one of toolallways, toolonclick or toolonover (default)
+  var l_shtoo = localStorage.getItem("showtools");
+  if (l_shtoo === null) document.getElementById("toolonover").checked = true;
+  else document.getElementById(l_shtoo).checked = true;
+
+  var l_wbgco = localStorage.getItem("winbgcolor");
+  if (l_wbgco === null) wbgcolor.value = "#ffffff";
+  else wbgcolor.value = l_wbgco;
+
+  var l_bgco = localStorage.getItem("bgcolor");
+  if (l_bgco === null) bgcolor.value = "#0078d4";
+  else bgcolor.value = l_bgco;
 
   var l_rejmet = localStorage.getItem("rejectmethod");
   if (l_rejmet === null) l_rejmet = "move";
@@ -632,29 +636,34 @@ async function loadConfig() {
     rejectfolder.value = l_usrp + "\\Pictures\\RejectedWallpapers";
   } else rejectfolder.value = l_fld;
 
-  //console.log(`loadConfig -- wbgcolor: ${wbgcolor.value}, bgcolor: ${bgcolor.value}, darkmode: ${darkmode.checked}, l_rejmet: ${l_rejmet}, rejectfolder: ${rejectfolder.value}`);
+  console.log(`loadConfig -- darkmode: ${darkmode.checked}, img_margin: ${img_margin.value}, showtools: ${l_shtoo}, wbgcolor: ${wbgcolor.value}, bgcolor: ${bgcolor.value}, l_rejmet: ${l_rejmet}, rejectfolder: ${rejectfolder.value}`);
 }
 
 async function saveConfig() {
-  localStorage.setItem("winbgcolor", wbgcolor.value);
-  localStorage.setItem("bgcolor", bgcolor.value);
   if (darkmode.checked) localStorage.setItem("darkmode", "true");
   else localStorage.setItem("darkmode", "false");
-  localStorage.setItem("rejectfolder", rejectfolder.value);
-
-  if (persist_geom.checked) localStorage.setItem("persist_geom", "true");
-  else localStorage.setItem("persist_geom", "false");
 
   if (img_margin.value < 1) localStorage.setItem("img_margin", 1);
   else if (img_margin.value > 20) localStorage.setItem("img_margin", 20);
   else localStorage.setItem("img_margin", img_margin.value);
+
+  if (persist_geom.checked) localStorage.setItem("persist_geom", "true");
+  else localStorage.setItem("persist_geom", "false");
+
+  var l_shtoo=document.querySelector('input[name="showtools"]:checked');
+  localStorage.setItem("showtools", l_shtoo.id);
+
+  localStorage.setItem("winbgcolor", wbgcolor.value);
+  localStorage.setItem("bgcolor", bgcolor.value);
+
+  localStorage.setItem("rejectfolder", rejectfolder.value);
 
   var l_rejmet;
   if (rempic.checked) l_rejmet = "delete";
   else l_rejmet = "move";
   localStorage.setItem("rejectmethod", l_rejmet);
 
-  //console.log(`saveConfig -- bgcolor: ${bgcolor.value}, darkmode: ${darkmode.checked}, rejectmethod: ${l_rejmet}, rejectfolder: ${rejectfolder.value}`);
+  console.log(`saveConfig -- darkmode: ${darkmode.checked}, img_margin: ${img_margin.value}, showtools: ${l_shtoo.id}, wbgcolor: ${wbgcolor.value}, bgcolor: ${bgcolor.value}, rejectmethod: ${l_rejmet}, rejectfolder: ${rejectfolder.value}`);
   //localStorage.clear();
 }
 
