@@ -18,13 +18,13 @@ ${PREFIX}-${VERSION}-${SYS_VER}.zip : ${SOURCES}
 deliv : ${PREFIX}-${VERSION}-${SYS_VER}.zip
 	@echo "Package $@ is ready to be dragged and dropped somewhere here https://github.com/2nil-web/Wallpaper-selector/releases/edit/$(shell git tag)"
 
-clean :
-	rm -f app.ico app.png
-
-include ${MK_DIR}/rules.mk
-
 format :
 	@js-beautify -type html -s 2 -r *.html
 	@js-beautify -type css -s 2 -r *.css
 	@js-beautify -type js -s 2 -r *.js
+
+clean :
+	rm -f app.ico app.png
+
+include ${MK_DIR}/rules.mk
 
