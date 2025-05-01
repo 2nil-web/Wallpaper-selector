@@ -15,7 +15,6 @@ ${PREFIX}-${VERSION}-${SYS_VER}.zip : ${SOURCES}
 	cp ${MK_DIR}/build/msvc/win/x64/Release/webapp.exe .
 	zip -qj $@ app.ico app.png app.svg config.js head.js index.html LICENSE style.css webapp.exe
 
-
 deliv : ${PREFIX}-${VERSION}-${SYS_VER}.zip
 	@echo "Package $@ is ready to be dragged and dropped somewhere here https://github.com/2nil-web/Wallpaper-selector/releases/edit/$(shell git tag)"
 
@@ -23,4 +22,9 @@ clean :
 	rm -f app.ico app.png
 
 include ${MK_DIR}/rules.mk
+
+format :
+	@js-beautify -type html -s 2 -r *.html
+	@js-beautify -type css -s 2 -r *.css
+	@js-beautify -type js -s 2 -r *.js
 

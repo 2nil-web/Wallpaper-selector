@@ -1,0 +1,4 @@
+Ajouter :
+1) La possibilité d'alimenter un ficher d'historique des images
+2) La possibilité de complétement cacher l'app et de la re-afficher en la relançant.
+

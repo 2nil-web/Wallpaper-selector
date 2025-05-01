@@ -17,7 +17,7 @@ function hide_imgs(hide = true) {
     old_app_w = app.w;
     old_app_h = app.h;
     app.set_size(500, 425, 0)
-    app.set_size(500+app.left_border+app.right_border, 425+app.top_border+app.bottom_border, 1)
+    app.set_size(500 + app.left_border + app.right_border, 425 + app.top_border + app.bottom_border, 1)
     //console.log(`hide_imgs -- old_met: ${old_met}`);
   } else {
     cnfDiv.style.display = 'none';
@@ -132,7 +132,7 @@ function cnfDivCancel() {
   img_margin.value = old_imargin;
   persist_geom.checked = old_persgeo;
 
-  document.getElementById(old_showtool.id).checked=true;
+  document.getElementById(old_showtool.id).checked = true;
 
   bgcolor.value = old_bgcolor;
   wbgcolor.value = old_wbgcolor;
@@ -196,7 +196,7 @@ function showConfig() {
   img_margin.addEventListener("input", only_int)
   old_persgeo = persist_geom.checked;
 
-  old_showtool=document.querySelector('input[name="showtools"]:checked');
+  old_showtool = document.querySelector('input[name="showtools"]:checked');
 
   old_wbgcolor = wbgcolor.value;
   old_bgcolor = bgcolor.value;

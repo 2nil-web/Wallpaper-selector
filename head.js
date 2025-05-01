@@ -420,8 +420,12 @@ async function update_images() {
 }
 
 function tools_visibility(showing) {
-  if (showing) document.querySelectorAll('.switch_vis').forEach(function(node) { node.style.visibility = 'visible'; });
-  else document.querySelectorAll('.switch_vis').forEach(function(node) { node.style.visibility = 'hidden'; });
+  if (showing) document.querySelectorAll('.switch_vis').forEach(function(node) {
+    node.style.visibility = 'visible';
+  });
+  else document.querySelectorAll('.switch_vis').forEach(function(node) {
+    node.style.visibility = 'hidden';
+  });
 }
 
 function on_mouse(event) {
@@ -433,15 +437,16 @@ function on_mouse(event) {
   }
 }
 
-var toogle_click=true;
+var toogle_click = true;
+
 function on_click(PointerEvent) {
   //  console.log(`Click (${PointerEvent.pageX},${PointerEvent.pageY})`);
   tools_visibility(toogle_click);
-  toogle_click=!toogle_click;
+  toogle_click = !toogle_click;
 }
 
-function setToolsDisplayMode(on=true) {
-  var showtools=document.querySelector('input[name="showtools"]:checked').id;
+function setToolsDisplayMode(on = true) {
+  var showtools = document.querySelector('input[name="showtools"]:checked').id;
 
   switch (showtools) {
     case "toolallways":
@@ -454,7 +459,7 @@ function setToolsDisplayMode(on=true) {
     case "toolonclick":
       if (on) {
         document.addEventListener("click", on_click);
-        toogle_click=true;
+        toogle_click = true;
         on_click();
       } else {
         document.removeEventListener("click", on_click);
@@ -476,7 +481,7 @@ function setToolsDisplayMode(on=true) {
   }
 }
 
-function setImgEvents (add=true) {
+function setImgEvents(add = true) {
 
   setToolsDisplayMode(add);
 
@@ -525,6 +530,7 @@ async function set_img_divs(on = true) {
 }
 
 var bc;
+
 function clean_exit() {
   bc.close();
   app.exit();
@@ -650,7 +656,7 @@ async function saveConfig() {
   if (persist_geom.checked) localStorage.setItem("persist_geom", "true");
   else localStorage.setItem("persist_geom", "false");
 
-  var l_shtoo=document.querySelector('input[name="showtools"]:checked');
+  var l_shtoo = document.querySelector('input[name="showtools"]:checked');
   localStorage.setItem("showtools", l_shtoo.id);
 
   localStorage.setItem("winbgcolor", wbgcolor.value);
@@ -664,7 +670,7 @@ async function saveConfig() {
   localStorage.setItem("rejectmethod", l_rejmet);
 
   console.log(`saveConfig -- darkmode: ${darkmode.checked}, img_margin: ${img_margin.value}, showtools: ${l_shtoo.id}, wbgcolor: ${wbgcolor.value}, bgcolor: ${bgcolor.value}, rejectmethod: ${l_rejmet}, rejectfolder: ${rejectfolder.value}`);
-  //localStorage.clear();
+  localStorage.clear();
 }
 
 if (typeof app.sysname !== "undefined") {
