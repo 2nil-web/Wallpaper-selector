@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<g transform="matrix(.91703 0 0 .9156 .99567 1.0044)"><circle cx="12" cy="12" r="11.5" fill="#f44336" stroke="#2c2c2c"/><g transform="matrix(.052628 0 0 .052628 -3.7757 -11.107)" fill="#fff"><rect transform="matrix(.7071 -.7071 .7071 .7071 -222.62 340.69)" x="267.16" y="307.98" width="65.545" height="262.18"/><rect transform="matrix(.7071 .7071 -.7071 .7071 398.39 -83.312)" x="266.99" y="308.15" width="65.544" height="262.18"/></g></g>
+<ellipse cx="12" cy="12" rx="10.542" ry="10.542" fill="#f44336" stroke="#2c2c2c" stroke-width=".91667"/><rect transform="matrix(.70766 -.70655 .70766 .70655 0 0)" x="-2.0831" y="5.7288" width="4.5832" height="22.358" ry="2.2916" fill="#fff" stroke-width=".048223"/><rect transform="matrix(.70766 .70655 -.70766 .70655 0 0)" x="14.356" y="-11.083" width="4.0304" height="22.17" ry="2.0152" fill="#fff" stroke-width=".048223"/>
 </svg>
